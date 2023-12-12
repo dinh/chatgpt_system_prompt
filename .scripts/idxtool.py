@@ -66,8 +66,7 @@ def reformat_gpt_files(src_path: str, dst_path: str) -> Tuple[bool, str]:
         if ok:
             ok, msg = gpt.save(dst_file_path)
             if ok:
-                id = gpt.id()
-                if id:
+                if id := gpt.id():
                     info = f"; id={id.id}"
                     if id.name:
                         info += f", name='{id.name}'"
@@ -99,12 +98,12 @@ def parse_gpt_file(filename) -> Tuple[bool, str]:
     return (ok, gpt)
 
 
-def rebuild_toc(toc_out: str = '') -> Tuple[bool, str]:    
+def rebuild_toc(toc_out: str = '') -> Tuple[bool, str]:
     """
     Rebuilds the table of contents (TOC.md) file by reading all the GPT files in the prompts/gpts directory.
     """
     if not toc_out:
-        print(f"Rebuilding Table of Contents (TOC.md) in place")
+        print("Rebuilding Table of Contents (TOC.md) in place")
     else:
         print(f"Rebuilding Table of Contents (TOC.md) to '{toc_out}'")
 
@@ -115,7 +114,7 @@ def rebuild_toc(toc_out: str = '') -> Tuple[bool, str]:
     if not os.path.exists(toc_in):
         return (False, f"TOC File '{toc_in}' does not exist.")
 
-    
+
     # Read the TOC file and find the marker line for the GPT instructions
     out = []
     marker_found = False
@@ -128,7 +127,7 @@ def rebuild_toc(toc_out: str = '') -> Tuple[bool, str]:
                 out.append(line)
     if not marker_found:
         return (False, f"Could not find the marker '{TOC_GPT_MARKER_LINE}' in '{toc_in}'.")
-    
+
     # Write the TOC file all the way up to the marker line
     try:
         ofile = open(toc_out, 'w', encoding='utf-8')
